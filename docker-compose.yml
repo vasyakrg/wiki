@@ -1,0 +1,66 @@
+version: '3.7'
+services:
+  backup:
+    image: ${DOCKER_IMAGE_BACKUP}
+    restart: always
+    container_name: ${SERVICE_NAME}_${CONTAINER_NAME_BACKUP}
+    command: site backup --db --storage S3://${S3_PATH} --container ${SERVICE_NAME}_${CONTAINER_NAME_SERVER}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - DB_TYPE=mysql
+      - DB_HOST=${CONTAINER_NAME_DB}
+      - DB_PASS=${DB_PASS}
+      - DB_USER=${DB_USER}
+      - DB_NAME=${DB_NAME}
+      - BACKUP_SCHEDULE=${BACKUP_SCHEDULE}
+      # - BACKUP_DIR=${BACKUP_DIR}
+      - SITE_NAME=${SERVICE_NAME}
+      - S3_APPLICATION_KEY=${S3_APPLICATION_KEY}
+      - S3_ACCOUNT_ID=${S3_ACCOUNT_ID}
+      - S3_HOST_BASE=${S3_HOST_BASE}
+      - S3_PATH=${S3_PATH}
+      - S3_BACKET=${S3_BACKET}
+      - CONTAINER_NAME_SERVER=${CONTAINER_NAME_SERVER}
+    tmpfs:
+      - /tmp
+    networks:
+      - ${SERVICE_NAME}
+
+  server:
+    image: ${DOCKER_IMAGE_SERVER}:${TIKI_VERSION}
+    container_name: ${SERVICE_NAME}_${CONTAINER_NAME_SERVER}
+    ports:
+    - ${IP_ADDRESS}:${EXTERNAL_PORT}:3000
+    depends_on:
+      - db
+    environment:
+      - DB_TYPE=${DB_TYPE}
+      - DB_HOST=${DB_HOST}
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - DB_NAME=${DB_NAME}
+      - DB_PORT=5432
+    networks:
+      - ${SERVICE_NAME}
+
+  db:
+    image: ${DOCKER_IMAGE_DB}
+    container_name: ${SERVICE_NAME}_${CONTAINER_NAME_DB}
+    # ports:
+    #   - "${DB_PORT}:3306"
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+      - POSTGRES_DB=${DB_NAME}
+    volumes:
+      - wiki_db:/var/lib/mysql
+    networks:
+      - ${SERVICE_NAME}
+
+networks:
+  wiki:
+    name: ${SERVICE_NAME}
+
+volumes:
+  wiki_db:
