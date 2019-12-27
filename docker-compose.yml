@@ -67,4 +67,4 @@ networks:
 
 volumes:
   wiki_db:
-  wikki_data:
+  wiki_data:
