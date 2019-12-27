@@ -43,7 +43,7 @@ services:
       - DB_NAME=${DB_NAME}
       - DB_PORT=5432
     volumes:
-      wiki_data:${BACKUP_DIR}
+      - wiki_data:${BACKUP_DIR}
     networks:
       - ${SERVICE_NAME}
 
