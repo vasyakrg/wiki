@@ -4,8 +4,9 @@ services:
     image: ${DOCKER_IMAGE_BACKUP}
     restart: always
     container_name: ${SERVICE_NAME}_${CONTAINER_NAME_BACKUP}
-    command: site backup --db --storage S3://${S3_PATH} --container ${SERVICE_NAME}_${CONTAINER_NAME_SERVER}
+    command: site backup --html ${BACKUP_DIR} --db --storage S3://${S3_PATH} --container ${SERVICE_NAME}_${CONTAINER_NAME_SERVER}
     volumes:
+      - wiki_data:${BACKUP_DIR}
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - DB_TYPE=mysql
@@ -14,7 +15,7 @@ services:
       - DB_USER=${DB_USER}
       - DB_NAME=${DB_NAME}
       - BACKUP_SCHEDULE=${BACKUP_SCHEDULE}
-      # - BACKUP_DIR=${BACKUP_DIR}
+      - BACKUP_DIR=${BACKUP_DIR}
       - SITE_NAME=${SERVICE_NAME}
       - S3_APPLICATION_KEY=${S3_APPLICATION_KEY}
       - S3_ACCOUNT_ID=${S3_ACCOUNT_ID}
@@ -28,7 +29,7 @@ services:
       - ${SERVICE_NAME}
 
   server:
-    image: ${DOCKER_IMAGE_SERVER}:${TIKI_VERSION}
+    image: ${DOCKER_IMAGE_SERVER}:${WIKI_VERSION}
     container_name: ${SERVICE_NAME}_${CONTAINER_NAME_SERVER}
     ports:
     - ${IP_ADDRESS}:${EXTERNAL_PORT}:3000
@@ -41,6 +42,8 @@ services:
       - DB_PASS=${DB_PASS}
       - DB_NAME=${DB_NAME}
       - DB_PORT=5432
+    volumes:
+      wiki_data:${BACKUP_DIR}
     networks:
       - ${SERVICE_NAME}
 
@@ -64,3 +67,4 @@ networks:
 
 volumes:
   wiki_db:
+  wikki_data:
