@@ -4,7 +4,7 @@ services:
     image: ${DOCKER_IMAGE_BACKUP}
     restart: always
     container_name: ${SERVICE_NAME}_${CONTAINER_NAME_BACKUP}
-    command: site backup --html ${BACKUP_DIR}/repo --db --storage S3://${S3_PATH} --container ${SERVICE_NAME}_${CONTAINER_NAME_SERVER}
+    command: site backup --html ${BACKUP_DIR} --db --storage S3://${S3_PATH} --container ${SERVICE_NAME}_${CONTAINER_NAME_SERVER}
     volumes:
       - wiki_data:${BACKUP_DIR}
       - /var/run/docker.sock:/var/run/docker.sock
