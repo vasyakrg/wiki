@@ -24,6 +24,7 @@ services:
 
   server:
     image: ${DOCKER_IMAGE_SERVER}:${WIKI_VERSION}
+    restart: always
     container_name: ${SERVICE_NAME}_${CONTAINER_NAME_SERVER}
     expose:
     - ${BACKEND_PORT}
@@ -41,6 +42,7 @@ services:
 
   db:
     image: ${DOCKER_IMAGE_DB}
+    restart: always
     container_name: ${SERVICE_NAME}_${CONTAINER_NAME_DB}
     expose:
       - ${DB_PORT}
