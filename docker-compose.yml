@@ -1,5 +1,6 @@
 version: '3.7'
 services:
+
   nginx:
     image: nginx
     restart: always
@@ -7,8 +8,6 @@ services:
     depends_on:
     - server
     - db
-    expose:
-    - ${NGINX_PORT}
     volumes:
     - ./nginx.conf.template:/etc/nginx/nginx.conf.template:ro
     environment:
@@ -26,16 +25,14 @@ services:
     image: ${DOCKER_IMAGE_SERVER}:${WIKI_VERSION}
     restart: always
     container_name: ${SERVICE_NAME}_${CONTAINER_NAME_SERVER}
-    expose:
-    - ${BACKEND_PORT}
     depends_on:
       - db
     environment:
-      - DB_TYPE=${DB_TYPE}
-      - DB_HOST=${DB_HOST}
-      - DB_USER=${DB_USER}
-      - DB_PASS=${DB_PASS}
-      - DB_NAME=${DB_NAME}
+      - DB_TYPE=${DBTYPE}
+      - DB_HOST=${DBHOST}
+      - DB_USER=${DBUSER}
+      - DB_PASS=${DBPASS}
+      - DB_NAME=${DBNAME}
       - DB_PORT=5432
     volumes:
       - wiki_www:/wiki
@@ -46,12 +43,10 @@ services:
     image: ${DOCKER_IMAGE_DB}
     restart: always
     container_name: ${SERVICE_NAME}_${CONTAINER_NAME_DB}
-    expose:
-      - ${DB_PORT}
     environment:
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASS}
-      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DBUSER}
+      - POSTGRES_PASSWORD=${DBPASS}
+      - POSTGRES_DB=${DBNAME}
     volumes:
       - wiki_db:/var/lib/postgres/data
     networks:
