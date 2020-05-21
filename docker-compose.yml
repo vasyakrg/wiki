@@ -32,7 +32,7 @@ services:
       - DB_HOST=${DBHOST}
       - DB_USER=${DBUSER}
       - DB_PASS=${DBPASS}
-      - DB_NAME=${DBNAME}
+      - DB_NAME=${DBTABLE}
       - DB_PORT=5432
     volumes:
       - wiki_www:/wiki
@@ -46,7 +46,7 @@ services:
     environment:
       - POSTGRES_USER=${DBUSER}
       - POSTGRES_PASSWORD=${DBPASS}
-      - POSTGRES_DB=${DBNAME}
+      - POSTGRES_DB=${DBTABLE}
     volumes:
       - wiki_db:/var/lib/postgres/data
     networks:
