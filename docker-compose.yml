@@ -37,6 +37,8 @@ services:
       - DB_PASS=${DB_PASS}
       - DB_NAME=${DB_NAME}
       - DB_PORT=5432
+    volumes:
+      - wiki_www:/wiki
     networks:
       - ${SERVICE_NAME}
 
@@ -51,7 +53,7 @@ services:
       - POSTGRES_PASSWORD=${DB_PASS}
       - POSTGRES_DB=${DB_NAME}
     volumes:
-      - wiki_db:/var/lib/mysql
+      - wiki_db:/var/lib/postgres/data
     networks:
       - ${SERVICE_NAME}
 
@@ -64,3 +66,4 @@ networks:
 
 volumes:
   wiki_db:
+  wiki_www:
