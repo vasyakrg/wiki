@@ -34,8 +34,6 @@ services:
       - DB_PASS=${DBPASS}
       - DB_NAME=${DBTABLE}
       - DB_PORT=5432
-    volumes:
-      - wiki_www:/wiki
     networks:
       - ${SERVICE_NAME}
 
@@ -61,4 +59,3 @@ networks:
 
 volumes:
   wiki_db:
-  wiki_www:
