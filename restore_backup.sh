@@ -9,4 +9,4 @@ FILE=$1
     exit 1
 }
 
-cat $FILE | docker exec -i ${SERVICE_NAME}_${CONTAINER_NAME_DB} psql -U ${DBUSER} -d ${DBTABLE}
+docker exec -i "${SERVICE_NAME}_${CONTAINER_NAME_DB}" pg_restore -C --clean --no-acl --no-owner -U "${DBUSER}" -d "${DBTABLE}" < ${FILE}
