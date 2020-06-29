@@ -17,11 +17,11 @@ services:
     command: /bin/bash -c "envsubst '$$VIRTUAL_HOST $$BACKEND_NAME' < /etc/nginx/nginx.conf.template > /etc/nginx/conf.d/default.conf && exec nginx -g 'daemon off;'"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.chat-amega.entrypoints=https"
-      - "traefik.http.routers.chat-amega.rule=Host(`wiki.amegaserver.com`)"
-      - "traefik.http.routers.chat-amega.tls=true"
-      - "traefik.http.routers.chat-amega.tls.certresolver=letsEncrypt"
-      - "traefik.http.services.chat-amega-service.loadbalancer.server.port=80"
+      - "traefik.http.routers.wiki-amega.entrypoints=https"
+      - "traefik.http.routers.wiki-amega.rule=Host(`wiki.amegaserver.com`)"
+      - "traefik.http.routers.wiki-amega.tls=true"
+      - "traefik.http.routers.wiki-amega.tls.certresolver=letsEncrypt"
+      - "traefik.http.services.wiki-amega-service.loadbalancer.server.port=80"
       - "traefik.docker.network=webproxy"
     networks:
     - ${SERVICE_NAME}
