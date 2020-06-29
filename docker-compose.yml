@@ -11,12 +11,18 @@ services:
     volumes:
     - ./nginx.conf.template:/etc/nginx/nginx.conf.template:ro
     environment:
-    - VIRTUAL_ROOT=/var/www/html
     - LETSENCRYPT_HOST=${DOMAIN_NAME}
     - VIRTUAL_HOST=${DOMAIN_NAME}
-    - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
     - BACKEND_NAME=${SERVICE_NAME}_${CONTAINER_NAME_SERVER}:${BACKEND_PORT}
     command: /bin/bash -c "envsubst '$$VIRTUAL_HOST $$BACKEND_NAME' < /etc/nginx/nginx.conf.template > /etc/nginx/conf.d/default.conf && exec nginx -g 'daemon off;'"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.chat-amega.entrypoints=https"
+      - "traefik.http.routers.chat-amega.rule=Host(`wiki.amegaserver.com`)"
+      - "traefik.http.routers.chat-amega.tls=true"
+      - "traefik.http.routers.chat-amega.tls.certresolver=letsEncrypt"
+      - "traefik.http.services.chat-amega-service.loadbalancer.server.port=80"
+      - "traefik.docker.network=webproxy"
     networks:
     - ${SERVICE_NAME}
     - ${WEBPROXY_NETWORK}
