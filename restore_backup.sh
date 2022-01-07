@@ -14,6 +14,8 @@ docker volume rm ${SERVICE_NAME}_${SERVICE_NAME}_${CONTAINER_NAME_DB}
 
 docker-compose -f docker-compose-db.yml up -d
 
+sleep 10
+
 docker exec -i "${SERVICE_NAME}_${CONTAINER_NAME_DB}" pg_restore -C --clean --no-acl --no-owner -U "${DBUSER}" -d "${DBTABLE}" < ${FILE}
 
 docker-compose up -d
