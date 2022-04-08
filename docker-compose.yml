@@ -18,7 +18,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.wiki-amega.entrypoints=https"
-      - "traefik.http.routers.wiki-amega.rule=Host(`wiki.amegaserver.com`)"
+      - "traefik.http.routers.wiki-amega.rule=Host(`wiki.amegahost.kz`) || Host(`wiki.amegahost.ru`) || || Host(`wiki.realmanual.ru`)"
       - "traefik.http.routers.wiki-amega.tls=true"
       - "traefik.http.routers.wiki-amega.tls.certresolver=letsEncrypt"
       - "traefik.http.services.wiki-amega-service.loadbalancer.server.port=80"
