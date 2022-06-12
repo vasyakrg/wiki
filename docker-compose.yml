@@ -60,8 +60,7 @@ networks:
   wiki:
     name: ${SERVICE_NAME}
   webproxy:
-    external:
-      name: ${WEBPROXY_NETWORK}
+    name: ${WEBPROXY_NETWORK}
 
 volumes:
   wiki_db:
