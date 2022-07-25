@@ -4,5 +4,5 @@
 
 ##### Автор
 - **Vassiliy Yegorov** - *Initial work* - [vasyakrg](https://github.com/vasyakrg)
-- [сайт](vk.com/realmanual)
-- [youtube](youtube.com/realmanual)
+- [сайт](https://realmanual.ru)
+- [youtube](https://youtube.com/realmanual)
